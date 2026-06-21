@@ -7,16 +7,4 @@ model User {
   role Role @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-}
-
-enum ActiveStatus {
-  ACTIVE
-  BLOCKED
-}
-
-enum Role {
-  USER
-  AUTHOR
-  ADMIN
 }

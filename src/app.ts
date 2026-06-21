@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.get("/", async (req: Request, res: Response) => {});
 
 app.post("/api/users/register", async (req: Request, res: Response) => {
-  const { name, email, password, progilePhoto } = req.body;
+  const { name, email, password, profilePhoto } = req.body;
   const isUserExist = await prisma.user.findUnique({
     where: { email },
   });
@@ -34,16 +34,35 @@ app.post("/api/users/register", async (req: Request, res: Response) => {
     password,
     Number(config.bcrypt_salt_rounds),
   );
-  const user = await prisma.user.create({
+  const createdUser = await prisma.user.create({
     data: {
       name,
       email,
-      password,
+      password: hashedPassword,
+    },
+  });
+
+  await prisma.profile.create({
+    data: {
+      userId: createdUser.id,
+      profilePhoto,
+    },
+  });
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: createdUser.id,
+      email: createdUser.email || email,
     },
   });
 
   res.status(httpStatus.CREATED).json({
+    success: true,
+    statusCode: httpStatus.CREATED,
     message: "User Registered Sucessfully",
+    data: {
+      user,
+    },
   });
 });
 

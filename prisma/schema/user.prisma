@@ -1,6 +1,6 @@
 model User {
   id   String @id @default(ulid())
-  name String @db.Varchar(255)
+  name String @db.VarChar(255)
   email String @unique
   password String
   activeStatus ActiveStatus @default(ACTIVE)
@@ -8,6 +8,6 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   profileId Profile?
-
   @@map("users")
 }
+

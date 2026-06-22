@@ -58,7 +58,7 @@ app.post("/api/users/register", async (req: Request, res: Response) => {
       password: true,
     },
     include: {
-      profileId: true,
+      profile: true,
     },
   });
 

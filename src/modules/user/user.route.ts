@@ -6,7 +6,7 @@ import { prisma } from "../../lib/prisma";
 
 const router = Router();
 
-router.post("/user/register", async (req: Request, res: Response) => {
+router.post("/register", async (req: Request, res: Response) => {
   const { name, email, password, profilePhoto } = req.body;
   const isUserExist = await prisma.user.findUnique({
     where: { email },
@@ -56,3 +56,5 @@ router.post("/user/register", async (req: Request, res: Response) => {
     },
   });
 });
+
+export const userRoutes = router;

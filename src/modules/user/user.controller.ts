@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import httpStatus from "http-status";
 import config from "../../config";
 import { prisma } from "../../lib/prisma";
-const createUser = async (req: Request, res: Response) => {
+const registerUser = async (req: Request, res: Response) => {
   const { name, email, password, profilePhoto } = req.body;
   const isUserExist = await prisma.user.findUnique({
     where: { email },
@@ -52,4 +52,8 @@ const createUser = async (req: Request, res: Response) => {
       user,
     },
   });
+};
+
+export const userController = {
+  registerUser,
 };

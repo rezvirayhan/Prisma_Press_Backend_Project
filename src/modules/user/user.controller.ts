@@ -42,6 +42,21 @@ const catchAsync = (fn: RequestHandler) => {
 //   }
 // };
 
+const registerUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const payload = req.body;
+    const user = await userServices.registerUserIntoDB(payload);
+
+    res.status(httpStatus.CREATED).json({
+      success: true,
+      statusCode: httpStatus.CREATED,
+      message: "User Registered Sucessfully",
+      data: {
+        user,
+      },
+    });
+  },
+);
 export const userController = {
   registerUser,
 };

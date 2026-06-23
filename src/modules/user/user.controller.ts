@@ -17,6 +17,16 @@ type TResponseData<T> = {
   meta?: Tmeta;
 };
 
+const sendResponse = <T>(res: Response, data: TResponseData<T>) => {
+  res.status(data.statusCode).json({
+    success: data.success,
+    statusCode: data.statusCode,
+    message: data.message,
+    data: data.data,
+    meta: data.meta,
+  });
+};
+
 // const registerUser = async (req: Request, res: Response) => {
 //   try {
 //     const payload = req.body;
@@ -45,8 +55,7 @@ const registerUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
     const user = await userServices.registerUserIntoDB(payload);
-
-    res.status(httpStatus.CREATED).json({
+    sendResponse(res, {
       success: true,
       statusCode: httpStatus.CREATED,
       message: "User Registered Sucessfully",

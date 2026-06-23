@@ -3,6 +3,20 @@ import httpStatus from "http-status";
 import { catchAsync } from "../../utils/catchAsync";
 import { userServices } from "./user.service";
 
+type Tmeta = {
+  page: number;
+  limit: number;
+  total: number;
+};
+
+type TResponseData<T> = {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: T;
+  meta?: Tmeta;
+};
+
 // const registerUser = async (req: Request, res: Response) => {
 //   try {
 //     const payload = req.body;

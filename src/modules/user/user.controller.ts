@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import httpStatus from "http-status";
 import { userServices } from "./user.service";
 const registerUser = async (req: Request, res: Response) => {
+  const payload = req.body;
   const user = await userServices.registerUserIntoDB(payload);
 
   res.status(httpStatus.CREATED).json({

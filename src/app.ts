@@ -19,6 +19,6 @@ app.use(cookieParser());
 
 app.get("/", async (req: Request, res: Response) => {});
 
-app.use("/api/user", userRoutes);
+app.use("/api/users", userRoutes);
 
 export default app;

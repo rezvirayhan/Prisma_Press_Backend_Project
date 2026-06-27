@@ -1,4 +1,4 @@
-const loginUser = () =>{
+const loginUser = (payload: {email: string, password: string}) =>{
 
 }
 

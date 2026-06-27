@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import jwt, { SignOptions } from "jsonwebtoken";
+import config from "../../config";
 import { prisma } from "../../lib/prisma";
 import { ILoginUser } from "./auth.interface";
 const loginUser = async (payload: ILoginUser) => {
@@ -13,30 +14,19 @@ const loginUser = async (payload: ILoginUser) => {
     throw new Error("Password Is INCORRECT");
   }
 
-  const accessToken = jwt.sign(
-    {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    },
-    "accesssecret",
-    {
-      expiresIn: "1d",
-    },
-  );
-  const refreshToken = jwt.sign(
-    {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    },
-    "refreshsecret",
-    {
-      expiresIn: "7d",
-    },
-  );
+  const jwtPayload = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
+
+  const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret, {
+    expiresIn: config.jwt_access_expies_in,
+  } as SignOptions);
+  const refreshToken = jwt.sign(jwtPayload, config.jwt_refresh_secret, {
+    expiresIn: config.jwt_refresh_expies_in,
+  } as SignOptions);
 
   return {
     accessToken,

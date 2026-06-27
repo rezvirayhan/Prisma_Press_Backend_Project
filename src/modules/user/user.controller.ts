@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
+import config from "../../config";
 import { catchAsync } from "../../utils/catchAsync";
+import { jwtUtils } from "../../utils/jwt";
 import { sendResponse } from "../../utils/sendResponse";
 import { userServices } from "./user.service";
 
@@ -45,7 +47,25 @@ const registerUser = catchAsync(
 
 const getMyProfile = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    res.send("Get My Profile ");
+    const { accessToken } = req.cookies;
+
+    const verifiedToken = jwtUtils.verifyToken(
+      accessToken,
+      config.jwt_access_secret,
+    );
+
+    if (typeof verifiedToken === "string") {
+      throw new Error(verifiedToken);
+    }
+
+    const profile = await userServices.getMyProfileFromDB(verifiedToken.id);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "User Profile fetched successfully",
+      data: { profile },
+    });
   },
 );
 

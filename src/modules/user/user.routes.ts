@@ -2,6 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import httpStatus from "http-status";
 import { Role } from "../../../generated/prisma/enums";
 import config from "../../config";
+import { catchAsync } from "../../utils/catchAsync";
 import { jwtUtils } from "../../utils/jwt";
 import { userController } from "./user.controller";
 
@@ -21,6 +22,16 @@ declare global {
 }
 
 router.post("/register", userController.registerUser);
+
+const auth = () => {
+  return catchAsync(async (req: Request, res: Response, nuxt: NextFunction) => {
+    const token =
+      req.cookies.accessToken || req.headers.authorization?.startsWith("Bearer")
+        ? req.headers.authorization?.split(" ")[1]
+        : req.headers.authorization;
+  });
+};
+
 router.get(
   "/me",
   (req: Request, res: Response, next: NextFunction) => {

@@ -18,7 +18,7 @@ declare global {
   }
 }
 
-const auth = (...requiredRoles: Role[]) => {
+export const auth = (...requiredRoles: Role[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies.accessToken
       ? req.cookies.accessToken

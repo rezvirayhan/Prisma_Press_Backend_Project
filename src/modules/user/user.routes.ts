@@ -9,19 +9,6 @@ import { userController } from "./user.controller";
 
 const router = Router();
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: {
-        name: string;
-        email: string;
-        id: string;
-        role: Role;
-      };
-    }
-  }
-}
-
 router.post("/register", userController.registerUser);
 
 const auth = (...requiredRoles: Role[]) => {

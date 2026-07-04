@@ -64,7 +64,12 @@ const getMyProfileFromDB = async (userId: string) => {
   return user;
 };
 
+const updateMyProfileInDB = async (userId: string, payload: any) => {
+  
+};
+
 export const userServices = {
   registerUserIntoDB,
+  updateMyProfileInDB,
   getMyProfileFromDB,
 };

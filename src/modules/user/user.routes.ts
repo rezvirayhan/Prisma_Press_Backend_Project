@@ -29,6 +29,11 @@ const auth = () => {
       req.cookies.accessToken || req.headers.authorization?.startsWith("Bearer")
         ? req.headers.authorization?.split(" ")[1]
         : req.headers.authorization;
+    if (!token) {
+      throw new Error(
+        "You Are not logged in. please log in to access this resource",
+      );
+    }
   });
 };
 

@@ -1,0 +1,25 @@
+{
+  "name": "prisma_press_backend_project",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/rezvirayhan/Prisma_Press_Backend_Project#readme",
+  "bugs": {
+    "url": "https://github.com/rezvirayhan/Prisma_Press_Backend_Project/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rezvirayhan/Prisma_Press_Backend_Project.git"
+  },
+  "license": "ISC",
+  "author": "rezvi rayhan",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "tsx": "^4.23.0",
+    "typescript": "^7.0.2"
+  }
+}

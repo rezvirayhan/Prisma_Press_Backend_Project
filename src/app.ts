@@ -56,6 +56,9 @@ app.post("/api/users/register", async (req: Request, res: Response) => {
       id: createdUser.id,
       email: createdUser.email || email,
     },
+    include: {
+      profile: true,
+    },
   });
 
   res.status(httpStatus.CREATED).json({

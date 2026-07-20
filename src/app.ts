@@ -19,8 +19,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.post("/api/users/register", async (req: Request, res: Response) => {
-  const payload = req.body;
-  console.log(payload);
+  const { name, email, password, ProfilePhoto } = req.body;
   res.status(HttpStatus.CREATED).json({
     message: "User Register Succesfully",
   });

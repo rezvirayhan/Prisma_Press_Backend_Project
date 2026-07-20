@@ -1,14 +1,11 @@
-import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import HttpStatus from "http-status";
-import config from "../../config";
-import { prisma } from "../../lib/prisma";
+import { userService } from "./user.service";
 
 const registerUser = async (req: Request, res: Response) => {
-  const { name, email, password, ProfilePhoto } = req.body;
+  const payload = req.body;
 
- 
-
+  const user = await userService.registerUserIntoDB(payload);
   res.status(HttpStatus.CREATED).json({
     success: true,
     statusCode: HttpStatus.CREATED,

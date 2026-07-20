@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { Application, Request, Response } from "express";
@@ -30,8 +31,40 @@ app.post("/api/users/register", async (req: Request, res: Response) => {
     throw new Error("User with this email already Exists");
   }
 
+  const hashedPassword = await bcrypt.hash(
+    password,
+    Number(config.bcrypt_salt_rounds),
+  );
+
+  const createdUser = await prisma.user.create({
+    data: {
+      name,
+      email,
+      password: hashedPassword,
+    },
+  });
+
+  await prisma.profile.create({
+    data: {
+      userId: createdUser.id,
+      ProfilePhoto,
+    },
+  });
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: createdUser.id,
+      email: createdUser.email || email,
+    },
+  });
+
   res.status(HttpStatus.CREATED).json({
+    success: true,
+    statusCode: HttpStatus.CREATED,
     message: "User Register Succesfully",
+    data: {
+      user,
+    },
   });
 });
 

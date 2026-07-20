@@ -7,51 +7,12 @@ import { prisma } from "../../lib/prisma";
 const registerUser = async (req: Request, res: Response) => {
   const { name, email, password, ProfilePhoto } = req.body;
 
-  const isUserExist = await prisma.user.findUnique({
-    where: { email },
-  });
-
-  if (isUserExist) {
-    throw new Error("User with this email already Exists");
-  }
-
-  const hashedPassword = await bcrypt.hash(
-    password,
-    Number(config.bcrypt_salt_rounds),
-  );
-
-  const createdUser = await prisma.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
-    },
-  });
-
-  await prisma.profile.create({
-    data: {
-      userId: createdUser.id,
-      ProfilePhoto,
-    },
-  });
-
-  const user = await prisma.user.findUnique({
-    where: {
-      id: createdUser.id,
-      email: createdUser.email || email,
-    },
-    include: {
-      profile: true,
-    },
-    omit: {
-      password: true,
-    },
-  });
+ 
 
   res.status(HttpStatus.CREATED).json({
     success: true,
     statusCode: HttpStatus.CREATED,
-    message: "User Register Succesfully",
+    message: "User Register Successfully",
     data: {
       user,
     },

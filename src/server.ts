@@ -12,6 +12,7 @@ async function main() {
     });
   } catch (error) {
     console.error("Error Stating the server", error);
+    await prisma.$disconnect();
     process.exit(1);
   }
 }

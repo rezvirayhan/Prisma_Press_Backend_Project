@@ -24,11 +24,11 @@ const registerUserIntoDB = async (payload: RegisterUserPayload) => {
       name,
       email,
       password: hashedPassword,
-      profile:{
-        create:{
-          ProfilePhoto
-        }
-      }
+      profile: {
+        create: {
+          ProfilePhoto,
+        },
+      },
     },
   });
 
@@ -54,6 +54,9 @@ const registerUserIntoDB = async (payload: RegisterUserPayload) => {
   return user;
 };
 
+const getMyProfileFromDB = async () => {};
+
 export const userService = {
   registerUserIntoDB,
+  getMyProfileFromDB,
 };

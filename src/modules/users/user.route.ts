@@ -1,12 +1,9 @@
-import bcrypt from "bcryptjs";
-import { Request, Response, Router } from "express";
-import HttpStatus from "http-status";
-import config from "../../config";
-import { prisma } from "../../lib/prisma";
+import { Router } from "express";
 import { userController } from "./user.controller";
 
 const router = Router();
 
-router.post("/register", userController.registerUser );
+router.post("/register", userController.registerUser);
+router.get("/me", userController.getMyProfile);
 
 export const userRoutes = router;

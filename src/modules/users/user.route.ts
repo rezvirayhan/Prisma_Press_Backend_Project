@@ -1,9 +1,38 @@
-import { Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
+import httpStatus from "http-status";
+import { Role } from "../../../generated/prisma/enums";
+import config from "../../config";
+import { jwtUtils } from "../../utils/jwt";
 import { userController } from "./user.controller";
-
 const router = Router();
 
 router.post("/register", userController.registerUser);
-router.get("/me", userController.getMyProfile);
+router.get(
+  "/me",
+  (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.cookies);
+    const { accessToken } = req.cookies;
+    const verifiedToken = jwtUtils.verifyToken(
+      accessToken,
+      config.jwt_access_secret,
+    );
+    if (typeof verifiedToken === "string") {
+      throw new Error(verifiedToken);
+    }
+    const { email, name, id, role } = verifiedToken;
+    const requiredRoles = [Role.ADMIN, Role.USER, Role.AUTHOR];
+
+    if (!requiredRoles.includes(role)) {
+      return res.status(403).json({
+        success: false,
+        statusCode: httpStatus.FORBIDDEN,
+        message: "Forbidden You don't have permission to access this resource",
+      });
+    }
+
+    next();
+  },
+  userController.getMyProfile,
+);
 
 export const userRoutes = router;

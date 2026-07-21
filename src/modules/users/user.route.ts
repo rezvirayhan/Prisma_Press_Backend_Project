@@ -6,6 +6,19 @@ import { jwtUtils } from "../../utils/jwt";
 import { userController } from "./user.controller";
 const router = Router();
 
+declare global {
+  namespace Express {
+    interface Request {
+      user?: {
+        email: string;
+        name: string;
+        id: string;
+        role: Role;
+      };
+    }
+  }
+}
+
 router.post("/register", userController.registerUser);
 router.get(
   "/me",
@@ -29,6 +42,13 @@ router.get(
         message: "Forbidden You don't have permission to access this resource",
       });
     }
+
+    req.user = {
+      email,
+      name,
+      id,
+      role,
+    };
 
     next();
   },

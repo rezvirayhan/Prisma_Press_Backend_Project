@@ -31,13 +31,11 @@ const registerUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
     const user = await userService.registerUserIntoDB(payload);
-    res.status(HttpStatus.CREATED).json({
+    sendResponse(res, {
       success: true,
       statusCode: HttpStatus.CREATED,
       message: "User Register Successfully",
-      data: {
-        user,
-      },
+      data: { user },
     });
   },
 );

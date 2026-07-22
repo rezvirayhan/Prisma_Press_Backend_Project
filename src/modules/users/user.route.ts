@@ -26,8 +26,9 @@ router.post("/register", userController.registerUser);
 // Start Hire Order function on middleware
 const auth = (...requiredRoles: Role[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const token =
-      req.cookies.accessToken || req.headers.authorization?.startsWith("Bearer")
+    const token = req.cookies.accessToken
+      ? req.cookies.accessToken
+      : req.headers.authorization?.startsWith("Bearer")
         ? req.headers.authorization?.split(" ")[1]
         : req.headers.authorization;
 

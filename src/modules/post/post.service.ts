@@ -115,12 +115,11 @@ const deletePost = async (postId: string, authorId: string, isAdmin: boolean) =>
   if (!isAdmin && post.authorId !== authorId) {
     throw new Error('You are not the owner of this post');
   }
-  const result = prisma.post.delete({
+  await prisma.post.delete({
     where: {
       id: postId,
     },
   });
-  return null;
 };
 const getPostStatus = () => {};
 

@@ -70,7 +70,7 @@ const deletePost = catchAsync(async (req: Request, res: Response, next: NextFunc
   const authorId = req.user?.id;
   const isAdmin = req.user?.role === 'ADMIN';
   const postId = req.params.postId;
-  const result = await postService.deletePost(postId as string, authorId as string, isAdmin);
+  await postService.deletePost(postId as string, authorId as string, isAdmin);
   sendResponse(res, {
     success: true,
     statusCode: HttpStatus.OK,

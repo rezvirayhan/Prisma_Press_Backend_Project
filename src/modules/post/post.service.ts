@@ -167,6 +167,13 @@ const getPostStatus = async () => {
       },
     });
 
+    const totalPostViewsAggregate = await tx.post.aggregate({
+      _sum: {
+        views: true,
+      },
+    });
+
+    const totalPostViews = totalPostViewsAggregate._sum.views;
     return {
       totalPost,
       totalPublishedPost,
@@ -175,6 +182,7 @@ const getPostStatus = async () => {
       totalComments,
       totalApprovedComments,
       totalRejectComments,
+      totalPostViews,
     };
   });
   return transactionResult;

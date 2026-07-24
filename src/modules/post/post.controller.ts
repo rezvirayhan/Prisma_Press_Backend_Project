@@ -19,7 +19,15 @@ const createPost = catchAsync(
   },
 );
 const getAllPost = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await postService.getAllPost();
+    sendResponse(res, {
+      success: true,
+      statusCode: HttpStatus.OK,
+      message: "Post Retrived Successfully",
+      data: result,
+    });
+  },
 );
 const getPostById = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},

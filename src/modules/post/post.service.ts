@@ -51,10 +51,33 @@ const getPostById = async (postId: string) => {
 
   return updatedPost;
 };
+const getMyPost = async (authorId: string) => {
+  const result = await prisma.post.findMany({
+    where: {
+      authorId,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    include: {
+      comments: true,
+      author: {
+        omit: {
+          password: true,
+        },
+      },
+      _count: {
+        select: {
+          comments: true,
+        },
+      },
+    },
+  });
+  return result;
+};
 const updatePost = () => {};
 const deletePost = () => {};
 const getPostStatus = () => {};
-const getMyPost = () => {};
 
 export const postService = {
   createPost,

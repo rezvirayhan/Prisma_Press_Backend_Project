@@ -1,5 +1,5 @@
-import { prisma } from "../../lib/prisma";
-import { ICreatePostPayload } from "./post.interface";
+import { prisma } from '../../lib/prisma';
+import { ICreatePostPayload } from './post.interface';
 
 const createPost = async (payload: ICreatePostPayload, userId: string) => {
   const result = await prisma.post.create({

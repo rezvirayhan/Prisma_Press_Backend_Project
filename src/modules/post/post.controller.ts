@@ -66,7 +66,18 @@ const updatePost = catchAsync(async (req: Request, res: Response, next: NextFunc
     data: result,
   });
 });
-const deletePost = catchAsync(async (req: Request, res: Response, next: NextFunction) => {});
+const deletePost = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  const authorId = req.user?.id;
+  const isAdmin = req.user?.role === 'ADMIN';
+  const postId = req.params.postId;
+  const result = await postService.deletePost(postId as string, authorId as string, isAdmin);
+  sendResponse(res, {
+    success: true,
+    statusCode: HttpStatus.OK,
+    message: ' Post Delete Successfully',
+    data: null,
+  });
+});
 const getPostStatus = catchAsync(async (req: Request, res: Response, next: NextFunction) => {});
 
 export const postController = {

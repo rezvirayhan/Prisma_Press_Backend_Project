@@ -1,4 +1,4 @@
-import { CommentStatus } from '../../../generated/prisma/enums';
+import { CommentStatus, PostStatus } from '../../../generated/prisma/enums';
 import { prisma } from '../../lib/prisma';
 import { ICreatePostPayload, IUpdatePostPayload } from './post.interface';
 
@@ -137,7 +137,48 @@ const deletePost = async (postId: string, authorId: string, isAdmin: boolean) =>
     },
   });
 };
-const getPostStatus = () => {};
+const getPostStatus = async () => {
+  const transactionResult = await prisma.$transaction(async (tx) => {
+    const totalPost = await tx.post.count();
+    const totalPublishedPost = await tx.post.count({
+      where: {
+        status: PostStatus.PUBLISHED,
+      },
+    });
+    const totalDraftdPost = await tx.post.count({
+      where: {
+        status: PostStatus.DRAFT,
+      },
+    });
+    const totalArcivedPost = await tx.post.count({
+      where: {
+        status: PostStatus.ARCHIVED,
+      },
+    });
+    const totalComments = await tx.comment.count();
+    const totalApprovedComments = await tx.comment.count({
+      where: {
+        status: CommentStatus.APPROVED,
+      },
+    });
+    const totalRejectComments = await tx.comment.count({
+      where: {
+        status: CommentStatus.REJECT,
+      },
+    });
+
+    return {
+      totalPost,
+      totalPublishedPost,
+      totalDraftdPost,
+      totalArcivedPost,
+      totalComments,
+      totalApprovedComments,
+      totalRejectComments,
+    };
+  });
+  return transactionResult;
+};
 
 export const postService = {
   createPost,

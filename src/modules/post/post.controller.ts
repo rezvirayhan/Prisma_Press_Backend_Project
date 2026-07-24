@@ -21,7 +21,7 @@ const getAllPost = catchAsync(async (req: Request, res: Response, next: NextFunc
   sendResponse(res, {
     success: true,
     statusCode: HttpStatus.OK,
-    message: 'Post Retrived Successfully',
+    message: 'Post Retrieved Successfully',
     data: result,
   });
 });
@@ -34,7 +34,7 @@ const getPostById = catchAsync(async (req: Request, res: Response, next: NextFun
   sendResponse(res, {
     success: true,
     statusCode: HttpStatus.OK,
-    message: 'Post Retrived Successfully',
+    message: 'Post Retrieved Successfully',
     data: result,
   });
 });
@@ -44,7 +44,7 @@ const getMyPost = catchAsync(async (req: Request, res: Response, next: NextFunct
   sendResponse(res, {
     success: true,
     statusCode: HttpStatus.OK,
-    message: 'My Post Retrived Successfully',
+    message: 'My Post Retrieved Successfully',
     data: result,
   });
 });
@@ -78,7 +78,15 @@ const deletePost = catchAsync(async (req: Request, res: Response, next: NextFunc
     data: null,
   });
 });
-const getPostStatus = catchAsync(async (req: Request, res: Response, next: NextFunction) => {});
+const getPostStatus = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  const result = await postService.getPostStatus();
+  sendResponse(res, {
+    success: true,
+    statusCode: HttpStatus.OK,
+    message: ' Post Status Retrieved Successfully',
+    data: result,
+  });
+});
 
 export const postController = {
   createPost,

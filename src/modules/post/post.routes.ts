@@ -11,7 +11,7 @@ router.post(
   postController.createPost,
 );
 router.get("/", postController.getAllPost);
-router.get("/status", auth(Role.ADMIN), postController.getPostStatus);
+router.get('/status', auth(Role.ADMIN), postController.getPostStatus);
 router.get(
   "/my-post",
   auth(Role.ADMIN, Role.AUTHOR, Role.USER),

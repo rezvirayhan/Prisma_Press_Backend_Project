@@ -1,9 +1,9 @@
-const createComment = () => {};
-const getCommentByAuthorId = () => {};
-const getCommentByCommentId = () => {};
-const updateComment = () => {};
-const deleteComment = () => {};
-const moderateComment = () => {};
+const createComment = async () => {};
+const getCommentByAuthorId = async () => {};
+const getCommentByCommentId = async () => {};
+const updateComment = async () => {};
+const deleteComment = async () => {};
+const moderateComment = async () => {};
 
 export const commentService = {
   createComment,
